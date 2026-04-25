@@ -37,7 +37,7 @@ export default async function AuditLogPage({
     query = query.eq('election_id', searchParams.election);
   }
 
-  const { data: logs, error } = await query
+  const { data: logs } = await query
     .order('created_at', { ascending: false })
     .limit(100);
 

@@ -23,7 +23,7 @@ export function getClientIp(request: NextRequest): string {
   return '127.0.0.1';
 }
 
-import UAParser from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js';
 
 export function getDeviceInfo(request: NextRequest) {
   const ua = request.headers.get('user-agent') || '';

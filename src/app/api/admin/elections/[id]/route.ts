@@ -12,7 +12,8 @@ export async function PATCH(
 
   try {
     const body = await request.json();
-    const updates: any = {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const updates: Record<string, any> = {};
     
     if (body.status) {
       if (!['PENDING', 'OPEN', 'CLOSED'].includes(body.status)) {
@@ -39,7 +40,7 @@ export async function PATCH(
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
 }

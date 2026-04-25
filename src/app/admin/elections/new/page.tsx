@@ -52,7 +52,7 @@ export default function NewElectionPage() {
         const error = await res.json();
         alert(error.message || 'Failed to create election');
       }
-    } catch (err) {
+    } catch {
       alert('An error occurred');
     } finally {
       setLoading(false);

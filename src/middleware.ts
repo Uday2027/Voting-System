@@ -21,7 +21,7 @@ export async function middleware(request: NextRequest) {
     try {
       await jwtVerify(token, SECRET);
       return NextResponse.next();
-    } catch (error) {
+    } catch {
       // Invalid token
       const response = NextResponse.redirect(new URL('/login', request.url));
       response.cookies.delete(COOKIE_NAME);

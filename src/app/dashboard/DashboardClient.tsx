@@ -2,11 +2,29 @@
 import { useState, useEffect, useCallback } from 'react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
-  PieChart, Pie, Cell, LineChart, Line 
+  PieChart, Pie, Cell
 } from 'recharts';
 import { 
-  Users, Vote, Percent, Clock, RefreshCw, Trophy, ChevronDown
+  Users, Vote, Percent, Clock, RefreshCw, Trophy, ChevronDown, PauseCircle
 } from 'lucide-react';
+
+interface CandidateResult {
+  id: string;
+  name: string;
+  votes: number;
+  percentage: number;
+}
+
+interface DashboardData {
+  election: Election;
+  stats: {
+    totalEligible: number;
+    totalCast: number;
+    turnout: number;
+  };
+  results: CandidateResult[];
+  isFrozen: boolean;
+}
 
 interface Election {
   id: string;
@@ -22,7 +40,7 @@ const COLORS = ['#2563eb', '#7c3aed', '#db2777', '#ea580c', '#16a34a', '#4f46e5'
 
 export default function DashboardClient({ initialElections }: DashboardClientProps) {
   const [selectedElectionId, setSelectedElectionId] = useState(initialElections[0].id);
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(new Date());
 
@@ -56,7 +74,7 @@ export default function DashboardClient({ initialElections }: DashboardClientPro
     );
   }
 
-  const { election, stats, results, timeSeries, isFrozen } = data || {};
+  const { election, stats, results, isFrozen } = data || {};
 
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-8">
@@ -103,7 +121,7 @@ export default function DashboardClient({ initialElections }: DashboardClientPro
           <div className="absolute inset-0 z-10 backdrop-blur-md bg-white/30 dark:bg-slate-900/30 flex items-center justify-center rounded-3xl border-2 border-dashed border-amber-400/50 m-[-4px]">
             <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-2xl text-center border border-slate-200 dark:border-slate-800 max-w-sm">
               <div className="w-16 h-16 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Pause className="w-8 h-8 text-amber-600" />
+                <PauseCircle className="w-8 h-8 text-amber-600" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Results are Frozen</h3>
               <p className="text-slate-500 dark:text-slate-400 text-sm">
@@ -151,7 +169,7 @@ export default function DashboardClient({ initialElections }: DashboardClientPro
                     outerRadius={100}
                     paddingAngle={5}
                   >
-                    {results?.map((entry: any, index: number) => (
+                    {results?.map((_, index: number) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
@@ -182,7 +200,7 @@ export default function DashboardClient({ initialElections }: DashboardClientPro
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {results?.map((candidate: any, index: number) => (
+              {results?.map((candidate, index: number) => (
                 <tr key={candidate.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition">
                   <td className="p-4 pl-6 font-bold text-slate-400">#{index + 1}</td>
                   <td className="p-4 font-bold">{candidate.name}</td>
@@ -206,7 +224,7 @@ export default function DashboardClient({ initialElections }: DashboardClientPro
   );
 }
 
-function StatCard({ icon, label, value }: { icon: any, label: string, value: any }) {
+function StatCard({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | number }) {
   return (
     <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
       <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center">

@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   if (!isAdminAuthorized()) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

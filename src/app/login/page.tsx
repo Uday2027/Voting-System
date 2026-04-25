@@ -31,7 +31,7 @@ export default function VoterLoginPage() {
         const data = await res.json();
         setError(data.error || 'Invalid credentials');
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);

@@ -20,7 +20,7 @@ export default function VerifyPage() {
       } else {
         setResult('not-found');
       }
-    } catch (err) {
+    } catch {
       setResult('not-found');
     } finally {
       setLoading(false);

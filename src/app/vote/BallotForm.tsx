@@ -48,7 +48,7 @@ export default function BallotForm({ electionId, candidates }: BallotFormProps) 
   useEffect(() => {
     if (cameraStream && videoRef.current) {
       videoRef.current.srcObject = cameraStream;
-      videoRef.current.play().catch(err => console.error('Error playing video:', err));
+      videoRef.current.play().catch(error => console.error('Error playing video:', error));
     }
   }, [cameraStream]);
 
@@ -73,8 +73,8 @@ export default function BallotForm({ electionId, candidates }: BallotFormProps) 
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             auditPhoto = canvas.toDataURL('image/jpeg', 0.7);
           }
-        } catch (err) {
-          console.error('Failed to draw to canvas:', err);
+        } catch (error) {
+          console.error('Failed to draw to canvas:', error);
         }
       } else {
         console.warn('Video not ready for capture, readyState:', video.readyState);
@@ -101,7 +101,7 @@ export default function BallotForm({ electionId, candidates }: BallotFormProps) 
         setError(data.error || 'Failed to submit vote');
         setShowConfirm(false);
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.');
       setShowConfirm(false);
     } finally {

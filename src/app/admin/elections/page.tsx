@@ -9,7 +9,7 @@ export default async function ElectionsManagement() {
     redirect('/admin/login');
   }
 
-  const { data: elections, error } = await supabaseAdmin
+  const { data: elections } = await supabaseAdmin
     .from('elections')
     .select('*')
     .order('created_at', { ascending: false });

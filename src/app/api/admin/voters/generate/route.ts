@@ -38,8 +38,8 @@ export async function POST(request: NextRequest) {
       .single();
 
     const credentials: { userId: string; password: string; email?: string }[] = [];
-    const votersToInsert: any[] = [];
-    const sessionsToInsert: any[] = [];
+    const votersToInsert: { id: string; election_id: string; password_hash: string; email: string | null }[] = [];
+    const sessionsToInsert: { voter_id: string; election_id: string; has_voted: boolean }[] = [];
 
     for (let i = 0; i < count; i++) {
       const userId = uuidv4();

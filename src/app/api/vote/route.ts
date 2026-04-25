@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
         const buffer = Buffer.from(base64Data, 'base64');
         const fileName = `elections/${electionId}/voter_${session.voterId}_${Date.now()}.jpg`;
 
-        const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+        const { error: uploadError } = await supabaseAdmin.storage
           .from('audit-photos')
           .upload(fileName, buffer, {
             contentType: 'image/jpeg',

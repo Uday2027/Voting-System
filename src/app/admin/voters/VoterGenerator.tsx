@@ -47,7 +47,7 @@ export default function VoterGenerator({ elections }: { elections: Election[] })
       } else {
         alert('Failed to generate voters');
       }
-    } catch (err) {
+    } catch {
       alert('An error occurred');
     } finally {
       setLoading(false);

@@ -13,7 +13,7 @@ export default function ElectionStatusToggle({ electionId, currentStatus, isFroz
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleUpdateStatus = async (updates: any) => {
+  const handleUpdateStatus = async (updates: Record<string, string | boolean>) => {
     setLoading(true);
     try {
       const res = await fetch(`/api/admin/elections/${electionId}`, {
@@ -27,7 +27,7 @@ export default function ElectionStatusToggle({ electionId, currentStatus, isFroz
       } else {
         alert('Failed to update election');
       }
-    } catch (err) {
+    } catch {
       alert('An error occurred');
     } finally {
       setLoading(false);

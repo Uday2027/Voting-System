@@ -10,7 +10,7 @@ export default async function VotePage() {
   }
 
   // 1. Check if voter has already voted
-  const { data: sessionData, error: sessionError } = await supabaseAdmin
+  const { data: sessionData } = await supabaseAdmin
     .from('voter_sessions')
     .select('*')
     .eq('voter_id', session.voterId)
@@ -45,7 +45,7 @@ export default async function VotePage() {
   }
 
   // 3. Fetch candidates
-  const { data: candidates, error: candidatesError } = await supabaseAdmin
+  const { data: candidates } = await supabaseAdmin
     .from('candidates')
     .select('*')
     .eq('election_id', session.electionId)

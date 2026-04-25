@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { isAdminAuthorized } from '@/lib/admin-auth';
 import { supabaseAdmin } from '@/lib/supabase';
 import Link from 'next/link';
-import { ArrowLeft, Play, Square, Trash2, Users } from 'lucide-react';
+import { ArrowLeft, Users } from 'lucide-react';
 import ElectionStatusToggle from './ElectionStatusToggle';
 
 export default async function ElectionDetailPage({ params }: { params: { id: string } }) {
@@ -10,7 +10,7 @@ export default async function ElectionDetailPage({ params }: { params: { id: str
     redirect('/admin/login');
   }
 
-  const { data: election, error } = await supabaseAdmin
+  const { data: election } = await supabaseAdmin
     .from('elections')
     .select(`
       *,
@@ -19,7 +19,7 @@ export default async function ElectionDetailPage({ params }: { params: { id: str
     .eq('id', params.id)
     .single();
 
-  if (!election || error) {
+  if (!election) {
     return <div className="text-center p-20">Election not found.</div>;
   }
 
@@ -62,7 +62,7 @@ export default async function ElectionDetailPage({ params }: { params: { id: str
           <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
             <h3 className="text-xl font-bold mb-6 text-slate-800 dark:text-white">Candidates</h3>
             <div className="space-y-4">
-              {election.candidates.map((candidate: any) => (
+              {election.candidates.map((candidate: { id: string; name: string; description: string; display_order: number }) => (
                 <div 
                   key={candidate.id}
                   className="p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 rounded-2xl flex items-center justify-between"
