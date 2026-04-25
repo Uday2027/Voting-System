@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🗳️ Secure Voting System
 
-## Getting Started
+A production-grade, privacy-preserving voting platform built with **Next.js 14**, **Tailwind CSS**, and **Supabase**. This system is designed for high-integrity elections with features like automatic photo audits, bulk credential distribution, and real-time result visualization.
 
-First, run the development server:
+## ✨ Key Features
 
+### 👤 For Voters
+- **Secure Authentication**: Access via unique Voter ID and random 12-character passwords.
+- **Privacy-First**: Anonymous ballot casting using PostgreSQL stored procedures.
+- **Audit Verification**: Every vote generates a unique receipt token for verification.
+- **Security Audit**: Automatic photo capture during the voting process for identity verification.
+
+### 🛡️ For Administrators
+- **Election Management**: Create and manage multiple elections with customizable candidates.
+- **Voter Generation**: Bulk generate credentials and send them via **Nodemailer/SMTP** to student emails.
+- **Live Dashboard**: Real-time stats including Votes Cast, Turnout %, and Candidate Performance.
+- **Visibility Control**: Ability to "Freeze" the public dashboard until final results are verified.
+- **Security Audit Log**: Comprehensive logs of every login, vote, and fraud attempt, including:
+  - Voter photos (with hover-zoom preview).
+  - Accurate IP detection.
+  - Device/Browser identification (Mobile, Desktop, OS version).
+  - Multi-level filtering (by event type, election, etc.).
+
+## 🚀 Tech Stack
+- **Frontend**: Next.js 14 (App Router), Tailwind CSS, Lucide React.
+- **Backend**: Next.js API Routes, PostgreSQL Stored Procedures.
+- **Database & Storage**: Supabase (Database + Storage + Auth).
+- **Email**: Nodemailer (SMTP).
+- **Security**: Bcrypt.js, JWT, Row Level Security (RLS).
+
+## 🛠️ Setup Instructions
+
+### 1. Prerequisites
+- Node.js 18+
+- Supabase Account
+- SMTP Server (e.g., Gmail App Password)
+
+### 2. Environment Setup
+Copy the example environment file and fill in your credentials:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Database Setup
+Run the SQL migrations provided in the `dataScheme.md` file (or the latest updates provided in logs) in your Supabase SQL Editor. This includes:
+- Creating `elections`, `candidates`, `voters`, `voter_sessions`, `votes`, and `audit_log` tables.
+- Creating the `cast_vote` atomic stored procedure.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Storage Setup
+Create a **Private** bucket in Supabase Storage named `audit-photos`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 5. Installation
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+## 🔒 Security Principles
+- **Anonymity**: The link between a voter and their specific vote is never stored.
+- **Integrity**: Transactional updates ensure no vote is lost and no voter can vote twice.
+- **Auditability**: Forensic data (IP, Device, Photo) is captured for every success and failure.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+Built by [Uday](https://github.com/Uday2027)
